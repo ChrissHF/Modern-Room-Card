@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420" fill="none">
+  <!-- Background -->
+  <rect width="800" height="420" rx="16" fill="#121212"/>
+  
+  <!-- Card 1: Filled preset with Side Features -->
+  <g transform="translate(40, 40)">
+    <rect width="340" height="150" rx="28" fill="#212121" stroke="#333333" stroke-width="1"/>
+    
+    <!-- Icon Container -->
+    <rect x="20" y="20" width="48" height="48" rx="14" fill="#2c2c2c"/>
+    <path d="M44 32 L32 41 L34 43 L44 35.5 L54 43 L56 41 Z M36 44 L36 54 L52 54 L52 44 L44 38 Z" fill="#9e9e9e"/>
+    <!-- Presence Badge -->
+    <circle cx="68" cy="20" r="9" fill="#f57c00" stroke="#212121" stroke-width="2"/>
+    <circle cx="68" cy="18" r="3" fill="#ffffff"/>
+    <path d="M63 24 Q68 21 73 24" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+    
+    <!-- Room Text -->
+    <text x="80" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="600" fill="#e3e3e3">Living Room</text>
+    <text x="80" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400" fill="#9e9e9e">21.5°C • 52%</text>
+
+    <!-- Side Button Feature -->
+    <rect x="230" y="24" width="90" height="40" rx="20" fill="#4c5c92"/>
+    <circle cx="250" cy="44" r="10" fill="#ffffff" opacity="0.9"/>
+    <text x="268" y="49" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Lights</text>
+    
+    <text x="20" y="115" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#757575">Preset: Filled (Side layout)</text>
+  </g>
+
+  <!-- Card 2: Translucent preset with Grid Features -->
+  <g transform="translate(420, 40)">
+    <rect width="340" height="340" rx="28" fill="#1e222b" stroke="#374151" stroke-width="1"/>
+    
+    <!-- Icon Container -->
+    <rect x="20" y="20" width="48" height="48" rx="14" fill="#2d3748"/>
+    <!-- Bed icon -->
+    <path d="M30 46 L30 54 M30 49 L58 49 M58 43 L58 54 M34 43 Q38 43 38 46 L30 46 Q30 43 34 43 Z M42 46 L54 46" stroke="#90caf9" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- Window Badge -->
+    <circle cx="68" cy="68" r="9" fill="#03a9f4" stroke="#1e222b" stroke-width="2"/>
+    <rect x="64" y="64" width="8" height="8" rx="1" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    
+    <!-- Room Text -->
+    <text x="80" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="600" fill="#e3e3e3">Master Bedroom</text>
+    <text x="80" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400" fill="#90caf9">20.2°C • 48% • Window Open</text>
+
+    <!-- Grid Features 2x2 -->
+    <!-- Feat 1 -->
+    <rect x="20" y="90" width="145" height="50" rx="16" fill="#2a3241"/>
+    <circle cx="45" cy="115" r="12" fill="#3b82f6"/>
+    <text x="68" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#e3e3e3">Ceiling Light</text>
+
+    <!-- Feat 2 -->
+    <rect x="175" y="90" width="145" height="50" rx="16" fill="#2a3241"/>
+    <circle cx="200" cy="115" r="12" fill="#374151"/>
+    <text x="223" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#9ca3af">Bed Lamp</text>
+
+    <!-- Feat 3 -->
+    <rect x="20" y="150" width="145" height="50" rx="16" fill="#2a3241"/>
+    <circle cx="45" cy="175" r="12" fill="#10b981"/>
+    <text x="68" y="180" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#e3e3e3">AC Climate</text>
+
+    <!-- Feat 4 -->
+    <rect x="175" y="150" width="145" height="50" rx="16" fill="#2a3241"/>
+    <circle cx="200" cy="175" r="12" fill="#f59e0b"/>
+    <text x="223" y="180" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#e3e3e3">Good Night</text>
+
+    <text x="20" y="235" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#757575">Preset: Translucent (Grid layout)</text>
+  </g>
+</svg>

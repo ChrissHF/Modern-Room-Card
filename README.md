@@ -8,6 +8,8 @@ An elegant, high-performance, and deeply customizable Room Card for Home Assista
 
 Seamlessly integrates with Material You themes, supports native and custom Card Features (such as [custom-card-features](https://github.com/Nerwyn/custom-card-features)), and is fully configurable via the Home Assistant visual GUI card editor.
 
+![Material Room Card Preview](images/preview.png)
+
 ---
 
 *Read this in other languages: [English](#english), [Deutsch](#deutsch).*
