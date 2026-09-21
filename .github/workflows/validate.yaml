@@ -37,6 +37,8 @@ jobs:
         uses: hacs/action@main
         with:
           category: plugin
+          ignore: "images hacsjson"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
