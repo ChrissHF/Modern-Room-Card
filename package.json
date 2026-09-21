@@ -1,0 +1,38 @@
+{
+  "name": "material-room-card",
+  "version": "2.2.0",
+  "description": "Material You Room Card for Home Assistant with card features support and auto area entity resolution",
+  "main": "dist/material-room-card.js",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "keywords": [
+    "home-assistant",
+    "homeassistant",
+    "hacs",
+    "lovelace",
+    "custom-card",
+    "material-you",
+    "room-card",
+    "card-features"
+  ],
+  "author": "ChrissHF",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChrissHF/Modern-Room-Cardv2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChrissHF/Modern-Room-Cardv2/issues"
+  },
+  "homepage": "https://github.com/ChrissHF/Modern-Room-Cardv2#readme",
+  "dependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4"
+  }
+}
