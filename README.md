@@ -1,7 +1,7 @@
 # Material Room Card
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/default)
-[![GitHub Release](https://img.shields.io/github/v/release/ChrissHF/Modern-Room-Cardv2?style=for-the-badge)](https://github.com/ChrissHF/Modern-Room-Cardv2/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/ChrissHF/Modern-Room-Card?style=for-the-badge)](https://github.com/ChrissHF/Modern-Room-Card/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 An elegant, high-performance, and deeply customizable Room Card for Home Assistant following Google's **Material You (Material Design 3)** design philosophy.
@@ -42,14 +42,14 @@ Seamlessly integrates with Material You themes, supports native and custom Card 
 
 1. Open **HACS** in your Home Assistant dashboard.
 2. Click the top-right menu (three dots) and select **Custom repositories**.
-3. Add the URL of this repository: `https://github.com/ChrissHF/Modern-Room-Cardv2`
+3. Add the URL of this repository: `https://github.com/ChrissHF/Modern-Room-Card`
 4. Set the category to **Lovelace (Dashboard)** and click **Add**.
 5. Search for **Material Room Card** and click **Download**.
 6. Refresh your browser dashboard.
 
 #### 2. Manual Installation
 
-1. Download `material-room-card.js` from the [latest release](https://github.com/ChrissHF/Modern-Room-Cardv2/releases) (or from the `dist/` folder after building).
+1. Download `material-room-card.js` from the [latest release](https://github.com/ChrissHF/Modern-Room-Card/releases) (or from the `dist/` folder after building).
 2. Copy `material-room-card.js` into your Home Assistant `/config/www/` directory.
 3. In Home Assistant, navigate to **Settings → Dashboards → Resources**.
 4. Add a new resource:
@@ -175,7 +175,7 @@ tap_action:
 
 1. Öffne **HACS** in Home Assistant.
 2. Klicke oben rechts auf die drei Punkte und wähle **Benutzerdefinierte Repositories**.
-3. Füge die URL dieses Repositories hinzu: `https://github.com/ChrissHF/Modern-Room-Cardv2`
+3. Füge die URL dieses Repositories hinzu: `https://github.com/ChrissHF/Modern-Room-Card`
 4. Wähle **Lovelace** als Kategorie und klicke auf **Hinzufügen**.
 5. Suche nach **Material Room Card** und installiere sie.
 
