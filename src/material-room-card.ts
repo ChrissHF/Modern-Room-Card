@@ -65,7 +65,12 @@ export class MaterialRoomCard extends LitElement {
     this._loadFeatures();
   }
 
-  // Performance optimization: Only re-render when relevant entities or settings change
+  // Performance optimization:
+  // - When features are configured: ALWAYS update on state changes so interactive feature
+  //   controls (light buttons, toggles, sliders, service calls, custom features) receive the
+  //   new hass and stateObj in real time without getting stuck or requiring a page refresh.
+  // - When NO features are configured: only update when the card's room entities, sensors,
+  //   theme, language, or registries change.
   protected shouldUpdate(changedProperties: PropertyValues): boolean {
     if (
       changedProperties.has('_config') ||
@@ -92,7 +97,15 @@ export class MaterialRoomCard extends LitElement {
         return true;
       }
 
-      // Check primary room entity
+      // If card has card features, any entity in HA could be targeted by a feature button,
+      // slider, toggle, or custom service call. Always update so child features receive the
+      // latest hass and stateObj in real time.
+      const features = this._config?.features || [];
+      if (features.length > 0) {
+        return true;
+      }
+
+      // For cards without features, optimize by only updating if room entities change
       const mainEntity = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
       if (mainEntity && oldHass.states[mainEntity] !== this.hass.states[mainEntity]) {
         return true;
@@ -112,15 +125,6 @@ export class MaterialRoomCard extends LitElement {
       const winEntity = this._windowEntity;
       if (winEntity && oldHass.states[winEntity] !== this.hass.states[winEntity]) {
         return true;
-      }
-
-      // Check each feature's target entity
-      const features = this._config.features || [];
-      for (const feat of features) {
-        const featEntity = feat?.entity || feat?.entity_id || mainEntity;
-        if (featEntity && oldHass.states[featEntity] !== this.hass.states[featEntity]) {
-          return true;
-        }
       }
 
       // No entity relevant to this card changed — skip render
@@ -342,7 +346,7 @@ export class MaterialRoomCard extends LitElement {
     );
   }
 
-  // Render individual features with stable context and arrays
+  // Render individual features with stable context, arrays, and stateObj
   private _renderFeatureElements(features: any[]) {
     const defaultEntity = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
     return repeat(
@@ -350,10 +354,14 @@ export class MaterialRoomCard extends LitElement {
       (feat, index) => feat.id || feat.entity || feat.entity_id || `${feat.type || 'feat'}_${index}`,
       (feat) => {
         const data = this._getFeatureData(feat, defaultEntity);
+        const targetEntity = data.context.entity_id;
+        const stateObj = targetEntity && this.hass?.states ? this.hass.states[targetEntity] : undefined;
         return html`
           <hui-card-features
             .hass=${this.hass}
+            .stateObj=${stateObj}
             .context=${data.context}
+            .color=${this._config.color}
             .features=${data.features}
           ></hui-card-features>
         `;
@@ -490,3 +498,10 @@ export class MaterialRoomCard extends LitElement {
   preview: true,
   description: 'A premium Material You card for Home Assistant representing a Room or Area.',
 });
+
+console.info(
+  `%c MATERIAL-ROOM-CARD %c v2.2.1 `,
+  'color: white; background: #4c5c92; font-weight: 700;',
+  'color: #4c5c92; background: white; font-weight: 700;'
+);
+

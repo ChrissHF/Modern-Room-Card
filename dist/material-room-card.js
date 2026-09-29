@@ -1,6 +1,6 @@
 var ke = Object.defineProperty;
 var Ue = (r, e, t) => e in r ? ke(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var y = (r, e, t) => Ue(r, typeof e != "symbol" ? e + "" : e, t);
+var g = (r, e, t) => Ue(r, typeof e != "symbol" ? e + "" : e, t);
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -25,14 +25,14 @@ let Ee = class {
     return this.cssText;
   }
 };
-const He = (r) => new Ee(typeof r == "string" ? r : r + "", void 0, re), Se = (r, ...e) => {
+const Me = (r) => new Ee(typeof r == "string" ? r : r + "", void 0, re), Se = (r, ...e) => {
   const t = r.length === 1 ? r[0] : e.reduce((s, i, a) => s + ((o) => {
     if (o._$cssResult$ === !0) return o.cssText;
     if (typeof o == "number") return o;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + o + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
   })(i) + r[a + 1], r[0]);
   return new Ee(t, r, re);
-}, Me = (r, e) => {
+}, He = (r, e) => {
   if (ie) r.adoptedStyleSheets = e.map((t) => t instanceof CSSStyleSheet ? t : t.styleSheet);
   else for (const t of e) {
     const s = document.createElement("style"), i = B.litNonce;
@@ -41,14 +41,14 @@ const He = (r) => new Ee(typeof r == "string" ? r : r + "", void 0, re), Se = (r
 }, de = ie ? (r) => r : (r) => r instanceof CSSStyleSheet ? ((e) => {
   let t = "";
   for (const s of e.cssRules) t += s.cssText;
-  return He(t);
+  return Me(t);
 })(r) : r;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: Fe, defineProperty: Re, getOwnPropertyDescriptor: ze, getOwnPropertyNames: De, getOwnPropertySymbols: Ne, getPrototypeOf: Ie } = Object, b = globalThis, he = b.trustedTypes, je = he ? he.emptyScript : "", J = b.reactiveElementPolyfillSupport, M = (r, e) => r, W = { toAttribute(r, e) {
+const { is: Re, defineProperty: Fe, getOwnPropertyDescriptor: ze, getOwnPropertyNames: De, getOwnPropertySymbols: Ne, getPrototypeOf: Ie } = Object, b = globalThis, he = b.trustedTypes, je = he ? he.emptyScript : "", J = b.reactiveElementPolyfillSupport, H = (r, e) => r, W = { toAttribute(r, e) {
   switch (e) {
     case Boolean:
       r = r ? je : null;
@@ -76,7 +76,7 @@ const { is: Fe, defineProperty: Re, getOwnPropertyDescriptor: ze, getOwnProperty
       }
   }
   return t;
-} }, oe = (r, e) => !Fe(r, e), ue = { attribute: !0, type: String, converter: W, reflect: !1, useDefault: !1, hasChanged: oe };
+} }, oe = (r, e) => !Re(r, e), ue = { attribute: !0, type: String, converter: W, reflect: !1, useDefault: !1, hasChanged: oe };
 Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), b.litPropertyMetadata ?? (b.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
 let C = class extends HTMLElement {
   static addInitializer(e) {
@@ -88,7 +88,7 @@ let C = class extends HTMLElement {
   static createProperty(e, t = ue) {
     if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
       const s = Symbol(), i = this.getPropertyDescriptor(e, s, t);
-      i !== void 0 && Re(this.prototype, e, i);
+      i !== void 0 && Fe(this.prototype, e, i);
     }
   }
   static getPropertyDescriptor(e, t, s) {
@@ -106,13 +106,13 @@ let C = class extends HTMLElement {
     return this.elementProperties.get(e) ?? ue;
   }
   static _$Ei() {
-    if (this.hasOwnProperty(M("elementProperties"))) return;
+    if (this.hasOwnProperty(H("elementProperties"))) return;
     const e = Ie(this);
     e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
   }
   static finalize() {
-    if (this.hasOwnProperty(M("finalized"))) return;
-    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(M("properties"))) {
+    if (this.hasOwnProperty(H("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(H("properties"))) {
       const t = this.properties, s = [...De(t), ...Ne(t)];
       for (const i of s) this.createProperty(i, t[i]);
     }
@@ -162,7 +162,7 @@ let C = class extends HTMLElement {
   }
   createRenderRoot() {
     const e = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-    return Me(e, this.constructor.elementStyles), e;
+    return He(e, this.constructor.elementStyles), e;
   }
   connectedCallback() {
     var e;
@@ -281,15 +281,15 @@ let C = class extends HTMLElement {
   firstUpdated(e) {
   }
 };
-C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[M("elementProperties")] = /* @__PURE__ */ new Map(), C[M("finalized")] = /* @__PURE__ */ new Map(), J == null || J({ ReactiveElement: C }), (b.reactiveElementVersions ?? (b.reactiveElementVersions = [])).push("2.1.2");
+C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[H("elementProperties")] = /* @__PURE__ */ new Map(), C[H("finalized")] = /* @__PURE__ */ new Map(), J == null || J({ ReactiveElement: C }), (b.reactiveElementVersions ?? (b.reactiveElementVersions = [])).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const F = globalThis, pe = (r) => r, q = F.trustedTypes, fe = q ? q.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, Ce = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, Pe = "?" + v, Be = `<${Pe}>`, E = document, R = () => E.createComment(""), z = (r) => r === null || typeof r != "object" && typeof r != "function", ae = Array.isArray, We = (r) => ae(r) || typeof (r == null ? void 0 : r[Symbol.iterator]) == "function", K = `[ 	
+const R = globalThis, pe = (r) => r, q = R.trustedTypes, fe = q ? q.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, Ce = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, Pe = "?" + v, Be = `<${Pe}>`, E = document, F = () => E.createComment(""), z = (r) => r === null || typeof r != "object" && typeof r != "function", ae = Array.isArray, We = (r) => ae(r) || typeof (r == null ? void 0 : r[Symbol.iterator]) == "function", K = `[ 	
 \f\r]`, k = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, me = /-->/g, _e = />/g, $ = RegExp(`>|${K}(?:([^\\s"'>=/]+)(${K}*=${K}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, ge = /"/g, Te = /^(?:script|style|textarea|title)$/i, qe = (r) => (e, ...t) => ({ _$litType$: r, strings: e, values: t }), _ = qe(1), S = Symbol.for("lit-noChange"), m = Symbol.for("lit-nothing"), ve = /* @__PURE__ */ new WeakMap(), x = E.createTreeWalker(E, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), ge = /'/g, ye = /"/g, Te = /^(?:script|style|textarea|title)$/i, qe = (r) => (e, ...t) => ({ _$litType$: r, strings: e, values: t }), _ = qe(1), S = Symbol.for("lit-noChange"), m = Symbol.for("lit-nothing"), ve = /* @__PURE__ */ new WeakMap(), x = E.createTreeWalker(E, 129);
 function Oe(r, e) {
   if (!ae(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return fe !== void 0 ? fe.createHTML(e) : e;
@@ -300,7 +300,7 @@ const Ve = (r, e) => {
   for (let c = 0; c < t; c++) {
     const n = r[c];
     let d, u, l = -1, p = 0;
-    for (; p < n.length && (o.lastIndex = p, u = o.exec(n), u !== null); ) p = o.lastIndex, o === k ? u[1] === "!--" ? o = me : u[1] !== void 0 ? o = _e : u[2] !== void 0 ? (Te.test(u[2]) && (i = RegExp("</" + u[2], "g")), o = $) : u[3] !== void 0 && (o = $) : o === $ ? u[0] === ">" ? (o = i ?? k, l = -1) : u[1] === void 0 ? l = -2 : (l = o.lastIndex - u[2].length, d = u[1], o = u[3] === void 0 ? $ : u[3] === '"' ? ge : ye) : o === ge || o === ye ? o = $ : o === me || o === _e ? o = k : (o = $, i = void 0);
+    for (; p < n.length && (o.lastIndex = p, u = o.exec(n), u !== null); ) p = o.lastIndex, o === k ? u[1] === "!--" ? o = me : u[1] !== void 0 ? o = _e : u[2] !== void 0 ? (Te.test(u[2]) && (i = RegExp("</" + u[2], "g")), o = $) : u[3] !== void 0 && (o = $) : o === $ ? u[0] === ">" ? (o = i ?? k, l = -1) : u[1] === void 0 ? l = -2 : (l = o.lastIndex - u[2].length, d = u[1], o = u[3] === void 0 ? $ : u[3] === '"' ? ye : ge) : o === ye || o === ge ? o = $ : o === me || o === _e ? o = k : (o = $, i = void 0);
     const h = o === $ && r[c + 1].startsWith("/>") ? " " : "";
     a += o === k ? n + Be : l >= 0 ? (s.push(d), n.slice(0, l) + Ce + n.slice(l) + v + h) : n + v + (l === -2 ? c : h);
   }
@@ -326,8 +326,8 @@ class D {
           const l = i.textContent.split(v), p = l.length - 1;
           if (p > 0) {
             i.textContent = q ? q.emptyScript : "";
-            for (let h = 0; h < p; h++) i.append(l[h], R()), x.nextNode(), n.push({ type: 2, index: ++a });
-            i.append(l[p], R());
+            for (let h = 0; h < p; h++) i.append(l[h], F()), x.nextNode(), n.push({ type: 2, index: ++a });
+            i.append(l[p], F());
           }
         }
       } else if (i.nodeType === 8) if (i.data === Pe) n.push({ type: 2, index: a });
@@ -426,7 +426,7 @@ class L {
     ae(this._$AH) || (this._$AH = [], this._$AR());
     const t = this._$AH;
     let s, i = 0;
-    for (const a of e) i === t.length ? t.push(s = new L(this.O(R()), this.O(R()), this, this.options)) : s = t[i], s._$AI(a), i++;
+    for (const a of e) i === t.length ? t.push(s = new L(this.O(F()), this.O(F()), this, this.options)) : s = t[i], s._$AI(a), i++;
     i < t.length && (this._$AR(s && s._$AB.nextSibling, i), t.length = i);
   }
   _$AR(e = this._$AA.nextSibling, t) {
@@ -507,14 +507,14 @@ class Qe {
     T(this, e);
   }
 }
-const Ye = { I: L }, Q = F.litHtmlPolyfillSupport;
-Q == null || Q(D, L), (F.litHtmlVersions ?? (F.litHtmlVersions = [])).push("3.3.3");
+const Ye = { I: L }, Q = R.litHtmlPolyfillSupport;
+Q == null || Q(D, L), (R.litHtmlVersions ?? (R.litHtmlVersions = [])).push("3.3.3");
 const Xe = (r, e, t) => {
   const s = (t == null ? void 0 : t.renderBefore) ?? e;
   let i = s._$litPart$;
   if (i === void 0) {
     const a = (t == null ? void 0 : t.renderBefore) ?? null;
-    s._$litPart$ = i = new L(e.insertBefore(R(), a), a, void 0, t ?? {});
+    s._$litPart$ = i = new L(e.insertBefore(F(), a), a, void 0, t ?? {});
   }
   return i._$AI(r), i;
 };
@@ -691,21 +691,21 @@ const we = (r, e, t) => {
     else if (c[l] === o[f]) n[f] = w(i[l], a[f]), U(r, n[f + 1], i[l]), l++, f--;
     else if (c[p] === o[h]) n[h] = w(i[p], a[h]), U(r, i[l], i[p]), p--, h++;
     else if (d === void 0 && (d = we(o, h, f), u = we(c, l, p)), d.has(c[l])) if (d.has(c[p])) {
-      const g = u.get(o[h]), Z = g !== void 0 ? i[g] : null;
+      const y = u.get(o[h]), Z = y !== void 0 ? i[y] : null;
       if (Z === null) {
         const ce = U(r, i[l]);
         w(ce, a[h]), n[h] = ce;
-      } else n[h] = w(Z, a[h]), U(r, i[l], Z), i[g] = null;
+      } else n[h] = w(Z, a[h]), U(r, i[l], Z), i[y] = null;
       h++;
     } else X(i[p]), p--;
     else X(i[l]), l++;
     for (; h <= f; ) {
-      const g = U(r, n[f + 1]);
-      w(g, a[h]), n[h++] = g;
+      const y = U(r, n[f + 1]);
+      w(y, a[h]), n[h++] = y;
     }
     for (; l <= p; ) {
-      const g = i[l++];
-      g !== null && X(g);
+      const y = i[l++];
+      y !== null && X(y);
     }
     return this.ut = o, nt(r, n), S;
   }
@@ -1013,7 +1013,7 @@ const we = (r, e, t) => {
     }
   }
 `;
-function H(r, e, t = {}, s = {}) {
+function M(r, e, t = {}, s = {}) {
   r.dispatchEvent(
     new CustomEvent(e, {
       bubbles: s.bubbles !== !1,
@@ -1087,7 +1087,7 @@ function se(r, e) {
 function ee(r, e, t, s) {
   if (!((s === "tap" ? t.tap_action : s === "hold" ? t.hold_action : t.double_tap_action) || (s === "tap" ? {} : null))) return;
   const o = t.entity || t.temperature_entity || t.humidity_entity || "";
-  H(r, "hass-action", {
+  M(r, "hass-action", {
     config: {
       entity: o,
       tap_action: t.tap_action || { action: "more-info" },
@@ -1105,10 +1105,10 @@ var ht = Object.defineProperty, ut = Object.getOwnPropertyDescriptor, G = (r, e,
 let N = class extends P {
   constructor() {
     super(...arguments);
-    y(this, "hass");
-    y(this, "_config");
-    y(this, "_featuresEditorLoaded", !1);
-    y(this, "_computeLabel", (e) => e.label || e.name);
+    g(this, "hass");
+    g(this, "_config");
+    g(this, "_featuresEditorLoaded", !1);
+    g(this, "_computeLabel", (e) => e.label || e.name);
   }
   static get styles() {
     return Se`
@@ -1275,7 +1275,7 @@ let N = class extends P {
   _editDetailElement(e) {
     e.stopPropagation();
     const t = e.detail.subElementConfig.index, s = this._config.features[t], a = { entity_id: s.entity || this._config.entity || "light.dummy" };
-    H(this, "edit-sub-element", {
+    M(this, "edit-sub-element", {
       config: s,
       saveConfig: (o) => this._updateFeature(t, o),
       context: a,
@@ -1287,7 +1287,7 @@ let N = class extends P {
     s[e] = t, this._config = {
       ...this._config,
       features: s
-    }, H(this, "config-changed", { config: this._config });
+    }, M(this, "config-changed", { config: this._config });
   }
   // Handle value-changed from HA forms
   _handleFormChanged(e, t) {
@@ -1306,7 +1306,7 @@ let N = class extends P {
         n.temperature && (i.temperature_entity = n.temperature), n.humidity && (i.humidity_entity = n.humidity), n.window && (i.window_entity = n.window), n.mainLightOrSwitch && (i.entity = n.mainLightOrSwitch);
       }
     }
-    this._config = i, H(this, "config-changed", { config: i });
+    this._config = i, M(this, "config-changed", { config: i });
   }
   // Handle features-changed from HA features editor
   _handleFeaturesChanged(e) {
@@ -1315,7 +1315,7 @@ let N = class extends P {
     e.detail && e.detail.value !== void 0 ? t = e.detail.value : e.detail && e.detail.features !== void 0 ? t = e.detail.features : e.detail && e.detail.config && e.detail.config.features !== void 0 && (t = e.detail.config.features), t && Array.isArray(t) && (this._config = {
       ...this._config,
       features: t
-    }, H(this, "config-changed", { config: this._config }));
+    }, M(this, "config-changed", { config: this._config }));
   }
   render() {
     if (!this.hass || !this._config) return _``;
@@ -1506,13 +1506,13 @@ var pt = Object.defineProperty, ft = Object.getOwnPropertyDescriptor, j = (r, e,
 let O = class extends P {
   constructor() {
     super(...arguments);
-    y(this, "hass");
-    y(this, "_config");
-    y(this, "_resolvedStyleType", "filled");
-    y(this, "_resolvedEntities", {});
-    y(this, "_observer");
-    y(this, "_featuresLoaded", !1);
-    y(this, "_featureDataCache", /* @__PURE__ */ new Map());
+    g(this, "hass");
+    g(this, "_config");
+    g(this, "_resolvedStyleType", "filled");
+    g(this, "_resolvedEntities", {});
+    g(this, "_observer");
+    g(this, "_featuresLoaded", !1);
+    g(this, "_featureDataCache", /* @__PURE__ */ new Map());
   }
   static get styles() {
     return dt;
@@ -1539,33 +1539,31 @@ let O = class extends P {
   firstUpdated(e) {
     super.firstUpdated(e), this._loadFeatures();
   }
-  // Performance optimization: Only re-render when relevant entities or settings change
+  // Performance optimization:
+  // - When features are configured: ALWAYS update on state changes so interactive feature
+  //   controls (light buttons, toggles, sliders, service calls, custom features) receive the
+  //   new hass and stateObj in real time without getting stuck or requiring a page refresh.
+  // - When NO features are configured: only update when the card's room entities, sensors,
+  //   theme, language, or registries change.
   shouldUpdate(e) {
+    var t;
     if (e.has("_config") || e.has("_resolvedStyleType") || e.has("_resolvedEntities"))
       return !0;
     if (e.has("hass")) {
-      const t = e.get("hass");
-      if (!t || !this.hass || t.themes !== this.hass.themes || t.language !== this.hass.language || t.areas !== this.hass.areas || t.entities !== this.hass.entities || t.devices !== this.hass.devices)
+      const s = e.get("hass");
+      if (!s || !this.hass || s.themes !== this.hass.themes || s.language !== this.hass.language || s.areas !== this.hass.areas || s.entities !== this.hass.entities || s.devices !== this.hass.devices || (((t = this._config) == null ? void 0 : t.features) || []).length > 0)
         return !0;
-      const s = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
-      if (s && t.states[s] !== this.hass.states[s])
+      const a = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
+      if (a && s.states[a] !== this.hass.states[a])
         return !0;
-      const i = this._temperatureEntity;
-      if (i && t.states[i] !== this.hass.states[i])
+      const o = this._temperatureEntity;
+      if (o && s.states[o] !== this.hass.states[o])
         return !0;
-      const a = this._humidityEntity;
-      if (a && t.states[a] !== this.hass.states[a])
+      const c = this._humidityEntity;
+      if (c && s.states[c] !== this.hass.states[c])
         return !0;
-      const o = this._windowEntity;
-      if (o && t.states[o] !== this.hass.states[o])
-        return !0;
-      const c = this._config.features || [];
-      for (const n of c) {
-        const d = (n == null ? void 0 : n.entity) || (n == null ? void 0 : n.entity_id) || s;
-        if (d && t.states[d] !== this.hass.states[d])
-          return !0;
-      }
-      return !1;
+      const n = this._windowEntity;
+      return !!(n && s.states[n] !== this.hass.states[n]);
     }
     return !0;
   }
@@ -1689,18 +1687,21 @@ let O = class extends P {
       (s) => s.tagName === "HUI-CARD-FEATURES" || s.classList && (s.classList.contains("mrc-features-side") || s.classList.contains("mrc-features-bottom") || s.classList.contains("mrc-features-grid"))
     );
   }
-  // Render individual features with stable context and arrays
+  // Render individual features with stable context, arrays, and stateObj
   _renderFeatureElements(e) {
     const t = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
     return lt(
       e,
       (s, i) => s.id || s.entity || s.entity_id || `${s.type || "feat"}_${i}`,
       (s) => {
-        const i = this._getFeatureData(s, t);
+        var c;
+        const i = this._getFeatureData(s, t), a = i.context.entity_id, o = a && ((c = this.hass) != null && c.states) ? this.hass.states[a] : void 0;
         return _`
           <hui-card-features
             .hass=${this.hass}
+            .stateObj=${o}
             .context=${i.context}
+            .color=${this._config.color}
             .features=${i.features}
           ></hui-card-features>
         `;
@@ -1821,6 +1822,11 @@ window.customCards.push({
   preview: !0,
   description: "A premium Material You card for Home Assistant representing a Room or Area."
 });
+console.info(
+  "%c MATERIAL-ROOM-CARD %c v2.2.1 ",
+  "color: white; background: #4c5c92; font-weight: 700;",
+  "color: #4c5c92; background: white; font-weight: 700;"
+);
 export {
   O as MaterialRoomCard
 };
