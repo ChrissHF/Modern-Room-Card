@@ -4,6 +4,9 @@
 [![GitHub Release](https://img.shields.io/github/v/release/ChrissHF/Modern-Room-Card?style=for-the-badge)](https://github.com/ChrissHF/Modern-Room-Card/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
+> [!NOTE]
+> **Personal Project / Work in Progress**: This is currently a personal, work-in-progress project for Home Assistant. Features, options, and layouts may change and evolve as development continues.
+
 An elegant, high-performance, and deeply customizable Room Card for Home Assistant following Google's **Material You (Material Design 3)** design philosophy.
 
 Seamlessly integrates with Material You themes, supports native and custom Card Features (such as [custom-card-features](https://github.com/Nerwyn/custom-card-features)), and is fully configurable via the Home Assistant visual GUI card editor.
@@ -11,13 +14,6 @@ Seamlessly integrates with Material You themes, supports native and custom Card 
 ![Material Room Card Preview](images/preview.png)
 
 ---
-
-*Read this in other languages: [English](#english), [Deutsch](#deutsch).*
-
----
-
-<a name="english"></a>
-## English
 
 ### Key Features
 
@@ -147,47 +143,6 @@ tap_action:
   action: navigate
   navigation_path: /dashboard/bedroom
 ```
-
----
-
-<a name="deutsch"></a>
-## Deutsch
-
-### Hauptmerkmale
-
-* **Material You Design**: Nutzt standardmäßige MD3-Farbvariablen (`--md-sys-color-*`) mit eleganten Fallbacks für maximale Kompatibilität mit dynamischen Farbpaletten.
-* **Automatische Raumauflösung**: Gib einfach `area` oder `area_id` an. Die Karte ermittelt automatisch:
-  * Den Namen des Raums
-  * Das Raum-Icon
-  * Sensoren für Temperatur und Luftfeuchtigkeit im Raum
-  * Haupt-Steuerelemente (Licht/Schalter) im Raum für die Präsenzanzeige
-* **Flexible Feature-Layouts**: Platziere Funktions-Buttons an verschiedenen Positionen:
-  * **Side**: Horizontal auf der rechten Seite des Headers.
-  * **Bottom**: Vertikal gestapelt unter dem Header.
-  * **Grid**: In einem konfigurierbaren Spalten-Raster (1 bis 4 Spalten).
-* **Card-Mod & Style Presets**: Integrierte Unterstützung für standardmäßige Card-Mod-Klassen sowie direkte Konfiguration über das YAML-Feld `style_type`.
-* **Interaktionen**: Volle Unterstützung für Tippen, Gedrückthalten und Doppeltippen-Aktionen.
-* **GUI-Editor**: Vollständiger visueller Editor zum Verwalten von Raum-Einstellungen, Layouts und Features.
-
----
-
-### Installation
-
-#### 1. Über HACS (Empfohlen)
-
-1. Öffne **HACS** in Home Assistant.
-2. Klicke oben rechts auf die drei Punkte und wähle **Benutzerdefinierte Repositories**.
-3. Füge die URL dieses Repositories hinzu: `https://github.com/ChrissHF/Modern-Room-Card`
-4. Wähle **Lovelace** als Kategorie und klicke auf **Hinzufügen**.
-5. Suche nach **Material Room Card** und installiere sie.
-
-#### 2. Manuelle Installation
-
-1. Lade die Datei `material-room-card.js` aus dem letzten Release (oder dem Ordner `dist/`) herunter.
-2. Kopiere die Datei in deinen Home Assistant `/config/www/` Ordner.
-3. Gehe zu **Einstellungen → Dashboards → Ressourcen** und füge hinzu:
-   * **URL**: `/local/material-room-card.js`
-   * **Typ**: `JavaScript-Modul`
 
 ---
 
