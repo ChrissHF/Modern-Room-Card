@@ -12,6 +12,82 @@ import {
 } from './helpers';
 import './material-room-card-editor';
 
+// Helper to extract the primary entity associated with a card feature
+function extractFeatureEntity(feat: any, defaultEntity?: string): string | undefined {
+  if (!feat || typeof feat !== 'object') return defaultEntity;
+  if (typeof feat.entity === 'string' && feat.entity) return feat.entity;
+  if (typeof feat.entity_id === 'string' && feat.entity_id) return feat.entity_id;
+  if (Array.isArray(feat.entity_id) && typeof feat.entity_id[0] === 'string') return feat.entity_id[0];
+
+  // Inspect entries (e.g. custom:service-call)
+  if (Array.isArray(feat.entries)) {
+    for (const entry of feat.entries) {
+      if (!entry || typeof entry !== 'object') continue;
+      if (typeof entry.entity === 'string' && entry.entity) return entry.entity;
+      if (typeof entry.entity_id === 'string' && entry.entity_id) return entry.entity_id;
+      const targetId = entry.tap_action?.target?.entity_id || entry.tap_action?.data?.entity_id;
+      if (typeof targetId === 'string' && targetId) return targetId;
+      if (Array.isArray(targetId) && typeof targetId[0] === 'string') return targetId[0];
+    }
+  }
+
+  // Inspect buttons (legacy custom:service-call)
+  if (Array.isArray(feat.buttons)) {
+    for (const btn of feat.buttons) {
+      if (!btn || typeof btn !== 'object') continue;
+      if (typeof btn.entity === 'string' && btn.entity) return btn.entity;
+      if (typeof btn.entity_id === 'string' && btn.entity_id) return btn.entity_id;
+      const targetId = btn.tap_action?.target?.entity_id || btn.tap_action?.data?.entity_id;
+      if (typeof targetId === 'string' && targetId) return targetId;
+      if (Array.isArray(targetId) && typeof targetId[0] === 'string') return targetId[0];
+    }
+  }
+
+  return defaultEntity;
+}
+
+// Helper to collect all entity IDs referenced anywhere in card features
+function getAllFeatureEntities(features?: any[]): Set<string> {
+  const entities = new Set<string>();
+  if (!features || !Array.isArray(features)) return entities;
+
+  for (const feat of features) {
+    if (!feat || typeof feat !== 'object') continue;
+    if (typeof feat.entity === 'string' && feat.entity) entities.add(feat.entity);
+    if (typeof feat.entity_id === 'string' && feat.entity_id) entities.add(feat.entity_id);
+    if (Array.isArray(feat.entity_id)) {
+      feat.entity_id.forEach((id: any) => typeof id === 'string' && id && entities.add(id));
+    }
+
+    if (Array.isArray(feat.entries)) {
+      for (const entry of feat.entries) {
+        if (!entry || typeof entry !== 'object') continue;
+        if (typeof entry.entity === 'string' && entry.entity) entities.add(entry.entity);
+        if (typeof entry.entity_id === 'string' && entry.entity_id) entities.add(entry.entity_id);
+        const tapTarget = entry.tap_action?.target?.entity_id || entry.tap_action?.data?.entity_id;
+        if (typeof tapTarget === 'string' && tapTarget) entities.add(tapTarget);
+        if (Array.isArray(tapTarget)) tapTarget.forEach((id: any) => typeof id === 'string' && id && entities.add(id));
+        const holdTarget = entry.hold_action?.target?.entity_id || entry.hold_action?.data?.entity_id;
+        if (typeof holdTarget === 'string' && holdTarget) entities.add(holdTarget);
+        if (Array.isArray(holdTarget)) holdTarget.forEach((id: any) => typeof id === 'string' && id && entities.add(id));
+      }
+    }
+
+    if (Array.isArray(feat.buttons)) {
+      for (const btn of feat.buttons) {
+        if (!btn || typeof btn !== 'object') continue;
+        if (typeof btn.entity === 'string' && btn.entity) entities.add(btn.entity);
+        if (typeof btn.entity_id === 'string' && btn.entity_id) entities.add(btn.entity_id);
+        const tapTarget = btn.tap_action?.target?.entity_id || btn.tap_action?.data?.entity_id;
+        if (typeof tapTarget === 'string' && tapTarget) entities.add(tapTarget);
+        if (Array.isArray(tapTarget)) tapTarget.forEach((id: any) => typeof id === 'string' && id && entities.add(id));
+      }
+    }
+  }
+
+  return entities;
+}
+
 @customElement('material-room-card')
 export class MaterialRoomCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -23,6 +99,7 @@ export class MaterialRoomCard extends LitElement {
   private _observer?: MutationObserver;
   private _featuresLoaded = false;
   private _featureDataCache = new Map<any, { context: { entity_id?: string }; features: [any] }>();
+  private _unsubscribeStates?: () => void;
 
   static get styles() {
     return styles;
@@ -47,17 +124,48 @@ export class MaterialRoomCard extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
+    this._subscribeStates();
     this._setupObserver();
     this._updateStyleType();
     this._loadFeatures();
   }
 
   public disconnectedCallback(): void {
+    if (this._unsubscribeStates) {
+      this._unsubscribeStates();
+      this._unsubscribeStates = undefined;
+    }
     if (this._observer) {
       this._observer.disconnect();
       this._observer = undefined;
     }
     super.disconnectedCallback();
+  }
+
+  private _subscribeStates(): void {
+    if (this._unsubscribeStates) return;
+    try {
+      const event = new CustomEvent('context-request', {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      });
+      (event as any).context = 'states';
+      (event as any).subscribe = true;
+      (event as any).callback = (states: Record<string, any>, unsubscribe: () => void) => {
+        this._unsubscribeStates = unsubscribe;
+        if (this.hass && states) {
+          this.hass = {
+            ...this.hass,
+            states,
+          };
+          this.requestUpdate();
+        }
+      };
+      this.dispatchEvent(event);
+    } catch (_) {
+      // Fallback gracefully if context-request is not supported
+    }
   }
 
   protected firstUpdated(changedProperties: PropertyValues): void {
@@ -66,11 +174,10 @@ export class MaterialRoomCard extends LitElement {
   }
 
   // Performance optimization:
-  // - When features are configured: ALWAYS update on state changes so interactive feature
-  //   controls (light buttons, toggles, sliders, service calls, custom features) receive the
-  //   new hass and stateObj in real time without getting stuck or requiring a page refresh.
-  // - When NO features are configured: only update when the card's room entities, sensors,
-  //   theme, language, or registries change.
+  // - Real-time responsiveness: Tracks all entities used by room sensors, presence,
+  //   and all configured features (including buttons, sliders, service-call entries).
+  // - High efficiency: Ignores updates for unrelated entities across Home Assistant,
+  //   preventing UI lag while guaranteeing instantaneous state updates for all features.
   protected shouldUpdate(changedProperties: PropertyValues): boolean {
     if (
       changedProperties.has('_config') ||
@@ -97,16 +204,8 @@ export class MaterialRoomCard extends LitElement {
         return true;
       }
 
-      // If card has card features, any entity in HA could be targeted by a feature button,
-      // slider, toggle, or custom service call. Always update so child features receive the
-      // latest hass and stateObj in real time.
-      const features = this._config?.features || [];
-      if (features.length > 0) {
-        return true;
-      }
-
-      // For cards without features, optimize by only updating if room entities change
-      const mainEntity = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
+      // Check primary room entity
+      const mainEntity = this._config?.entity || this._resolvedEntities.mainLightOrSwitch;
       if (mainEntity && oldHass.states[mainEntity] !== this.hass.states[mainEntity]) {
         return true;
       }
@@ -125,6 +224,25 @@ export class MaterialRoomCard extends LitElement {
       const winEntity = this._windowEntity;
       if (winEntity && oldHass.states[winEntity] !== this.hass.states[winEntity]) {
         return true;
+      }
+
+      // Check entities targeted by card features
+      const features = this._config?.features || [];
+      if (features.length > 0) {
+        const featureEntities = getAllFeatureEntities(features);
+        if (featureEntities.size > 0) {
+          for (const ent of featureEntities) {
+            if (oldHass.states[ent] !== this.hass.states[ent]) {
+              return true;
+            }
+          }
+        } else {
+          // If features exist without statically discoverable entities (e.g. dynamic templates),
+          // update on state changes to ensure interactive elements never get stuck.
+          if (oldHass.states !== this.hass.states) {
+            return true;
+          }
+        }
       }
 
       // No entity relevant to this card changed — skip render
@@ -231,7 +349,7 @@ export class MaterialRoomCard extends LitElement {
 
   // Stable feature data cache to avoid reference thrashing on hui-card-features
   private _getFeatureData(feat: any, defaultEntity?: string) {
-    const targetEntity = feat?.entity || feat?.entity_id || defaultEntity;
+    const targetEntity = extractFeatureEntity(feat, defaultEntity);
     let cached = this._featureDataCache.get(feat);
     if (!cached || cached.context.entity_id !== targetEntity) {
       cached = {
@@ -346,25 +464,33 @@ export class MaterialRoomCard extends LitElement {
     );
   }
 
-  // Render individual features with stable context, arrays, and stateObj
+  // Render individual features with stable context, arrays, unique keys, and stateObj
   private _renderFeatureElements(features: any[]) {
     const defaultEntity = this._config.entity || this._resolvedEntities.mainLightOrSwitch;
     return repeat(
       features,
-      (feat, index) => feat.id || feat.entity || feat.entity_id || `${feat.type || 'feat'}_${index}`,
+      (feat, index) =>
+        feat?.id
+          ? `${feat.id}_${index}`
+          : `${feat?.type || 'feat'}_${feat?.entity || feat?.entity_id || ''}_${index}`,
       (feat) => {
-        const data = this._getFeatureData(feat, defaultEntity);
-        const targetEntity = data.context.entity_id;
-        const stateObj = targetEntity && this.hass?.states ? this.hass.states[targetEntity] : undefined;
-        return html`
-          <hui-card-features
-            .hass=${this.hass}
-            .stateObj=${stateObj}
-            .context=${data.context}
-            .color=${this._config.color}
-            .features=${data.features}
-          ></hui-card-features>
-        `;
+        try {
+          const data = this._getFeatureData(feat, defaultEntity);
+          const targetEntity = data.context.entity_id;
+          const stateObj = targetEntity && this.hass?.states ? this.hass.states[targetEntity] : undefined;
+          return html`
+            <hui-card-features
+              .hass=${this.hass}
+              .stateObj=${stateObj}
+              .context=${data.context}
+              .color=${this._config.color}
+              .features=${data.features}
+            ></hui-card-features>
+          `;
+        } catch (err) {
+          console.error('[material-room-card] Feature render error:', err);
+          return html``;
+        }
       }
     );
   }
@@ -500,7 +626,7 @@ export class MaterialRoomCard extends LitElement {
 });
 
 console.info(
-  `%c MATERIAL-ROOM-CARD %c v2.2.1 `,
+  `%c MATERIAL-ROOM-CARD %c v2.2.2 `,
   'color: white; background: #4c5c92; font-weight: 700;',
   'color: #4c5c92; background: white; font-weight: 700;'
 );
